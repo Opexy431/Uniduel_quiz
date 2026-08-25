@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Practice Questions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- ── SETUP SCREEN ── -->
+  <div class="screen" id="screen-setup">
+    <div class="desk">
+      <header class="topbar">
+        <span class="brand">University practice questions</span>
+        <button class="history-toggle" id="history-toggle" type="button">
+          History <span class="history-caret">▾</span>
+        </button>
+      </header>
+
+      <!-- history panel -->
+      <div class="history-panel" id="history-panel" hidden>
+        <p class="history-empty" id="history-empty">No attempts yet</p>
+        <ul class="history-list" id="history-list"></ul>
+      </div>
+
+      <h2 class="setup-heading">Choose what to drill</h2>
+
+      <!-- course cards -->
+      <div class="course-grid" id="course-grid">
+        <p class="loading-courses">Loading courses…</p>
+      </div>
+
+      <!-- settings panel -->
+      <div class="settings-card">
+        <div class="setting-row">
+          <label class="setting-label" for="round-slider">Questions per round</label>
+          <span class="setting-value" id="round-value">10</span>
+        </div>
+        <input class="slider" id="round-slider" type="range" min="10" max="70" step="5" value="10">
+
+        <div class="setting-divider"></div>
+
+        <div class="setting-row">
+          <label class="setting-label" for="round-time-slider">Round time limit</label>
+          <span class="setting-value" id="round-time-value">5 min</span>
+        </div>
+        <input class="slider" id="round-time-slider" type="range" min="1" max="10" step="1" value="5">
+
+        <div class="setting-divider"></div>
+
+        <div class="setting-row">
+          <label class="setting-label" for="timed-toggle">Timed mode</label>
+          <label class="switch">
+            <input type="checkbox" id="timed-toggle">
+            <span class="switch-track"></span>
+          </label>
+        </div>
+
+        <div class="timed-options" id="timed-options" hidden>
+          <div class="setting-row">
+            <label class="setting-label" for="timer-slider">Seconds per question</label>
+            <span class="setting-value" id="timer-value">10s</span>
+          </div>
+          <input class="slider" id="timer-slider" type="range" min="5" max="20" step="1" value="10">
+        </div>
+      </div>
+
+      <button class="start-btn" id="start-btn" type="button" disabled>
+        Select a course to start
+      </button>
+    </div>
+  </div>
+
+  <!-- ── COUNTDOWN OVERLAY ── -->
+  <div class="overlay" id="overlay-countdown" hidden>
+    <div class="overlay-box countdown-box">
+      <p class="overlay-eyebrow">Starting now</p>
+      <p class="countdown-number" id="countdown-number">5</p>
+      <p class="overlay-sub">Get ready to answer with your voice</p>
+    </div>
+  </div>
+
+  <!-- ── PRACTICE SCREEN ── -->
+  <div class="screen" id="screen-practice" hidden>
+    <div class="desk">
+      <header class="topbar">
+        <button class="back-btn" id="back-btn" type="button">← Change course</button>
+        <span class="session-timer" id="session-timer">00:00</span>
+      </header>
+
+      <!-- per-question countdown bar -->
+      <div class="q-timer-wrap" id="q-timer-wrap" hidden>
+        <div class="q-timer-bar" id="q-timer-bar"></div>
+      </div>
+
+      <main class="card" id="card">
+        <p class="eyebrow" id="progress">Loading…</p>
+        <h1 class="question" id="question-text">Loading question…</h1>
+        <ul class="options" id="options" hidden></ul>
+        <p class="status" id="status" aria-live="polite"></p>
+      </main>
+
+      <div class="controls">
+        <button class="mic-btn" id="mic-btn" type="button" aria-label="Tap and speak your answer">
+          <span class="mic-ring"></span>
+          <span class="mic-icon" aria-hidden="true"></span>
+        </button>
+        <p class="hint" id="hint">Tap the mic and say your answer</p>
+      </div>
+
+      <footer class="scoreboard">
+        <span>Score</span>
+        <span class="score-value" id="score">0 / 0</span>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ── RESULTS OVERLAY ── -->
+  <div class="overlay" id="overlay-results" hidden>
+    <div class="overlay-box results-box">
+      <p class="overlay-eyebrow">Round complete</p>
+      <p class="results-score" id="results-score">0 / 10</p>
+      <p class="results-meta" id="results-meta"></p>
+      <div class="results-actions">
+        <button class="start-btn" id="results-again" type="button">Practice again</button>
+        <button class="ghost-btn" id="results-change" type="button">Change course</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/api.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/speech.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/quiz.js') }}" defer></script>
+</body>
+</html>
