@@ -579,3 +579,9 @@ body {
   .card { padding: 26px 20px; }
   .overlay-box { padding: 28px 20px; }
 }
+.setting-hint {
+  font-size: 11px;
+  color: #b7af9e;
+  margin: 6px 0 0;
+  text-align: center;
+} 

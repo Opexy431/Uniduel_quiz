@@ -46,9 +46,10 @@
 
         <div class="setting-row">
           <label class="setting-label" for="round-time-slider">Round time limit</label>
-          <span class="setting-value" id="round-time-value">5 min</span>
+          <span class="setting-value" id="round-time-value">30 min</span>
         </div>
-        <input class="slider" id="round-time-slider" type="range" min="1" max="10" step="1" value="5">
+        <input class="slider" id="round-time-slider" type="range" min="10" max="60" step="5" value="30">
+        <p class="setting-hint">Timer counts down — round ends at 00:00</p>
 
         <div class="setting-divider"></div>
 
@@ -61,7 +62,7 @@
         </div>
 
         <div class="timed-options" id="timed-options" hidden>
-          <div class="setting-row">
+          <div class="setting-row" style="margin-top:14px">
             <label class="setting-label" for="timer-slider">Seconds per question</label>
             <span class="setting-value" id="timer-value">10s</span>
           </div>
@@ -75,7 +76,7 @@
     </div>
   </div>
 
-  <!-- ── COUNTDOWN OVERLAY ── -->
+  <!-- ── COUNTDOWN OVERLAY (starting now) ── -->
   <div class="overlay" id="overlay-countdown" hidden>
     <div class="overlay-box countdown-box">
       <p class="overlay-eyebrow">Starting now</p>
