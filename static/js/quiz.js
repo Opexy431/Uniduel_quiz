@@ -44,7 +44,7 @@
   const state = {
     selectedSection: null,
     roundSize: 10,
-    roundTimeMins: 5,
+    roundTimeMins: 30,
     timed: false,
     timerSecs: 10,
     pool: [],
@@ -189,6 +189,24 @@
     };
 
     el("mic-btn").onclick = handleMicClick;
+
+    // ── TYPING INPUT ──
+    el("answer-input").value = "";
+    el("answer-input").disabled = false;
+
+    el("submit-btn").onclick = () => {
+      const typed = el("answer-input").value.trim();
+      if (!typed || state.answering) return;
+      state.answering = true;
+      clearInterval(state.qTimerInterval);
+      el("answer-input").disabled = true;
+      handleTranscript(typed);
+    };
+
+    el("answer-input").onkeydown = (e) => {
+      if (e.key === "Enter") el("submit-btn").click();
+    };
+
     loadNextQuestion();
   }
 
@@ -210,11 +228,14 @@
     el("card").classList.remove("is-correct", "is-incorrect");
     el("status").textContent = "";
     el("status").className = "status";
-    el("hint").textContent = "Tap the mic and say your answer";
+    el("hint").textContent = "Type your answer or tap the mic";
     el("score").textContent = `${state.correctCount} / ${state.questionCount - 1 || 0}`;
     el("progress").textContent = "Loading…";
     el("question-text").textContent = "Loading…";
     el("mic-btn").classList.remove("listening");
+    el("answer-input").value = "";
+    el("answer-input").disabled = false;
+    el("answer-input").focus();
 
     try {
       const q = await API.getQuestion(qId);
@@ -268,6 +289,7 @@
 
   function timeOut() {
     state.answering = true;
+    el("answer-input").disabled = true;
     el("card").classList.add("is-incorrect");
     el("status").textContent = "Time's up!";
     el("status").className = "status incorrect";
@@ -277,7 +299,7 @@
 
   // ── TRANSCRIPT HANDLER ───────────────────────────────────────────────────
   async function handleTranscript(transcript) {
-    el("hint").textContent = `You said: "${transcript}"`;
+    el("hint").textContent = `You answered: "${transcript}"`;
     try {
       const result = await API.submitAnswer(state.questionId, transcript);
 
@@ -295,8 +317,9 @@
       el("score").textContent = `${state.correctCount} / ${state.questionCount}`;
       setTimeout(loadNextQuestion, 1800);
     } catch {
-      el("hint").textContent = "Couldn't check answer — tap mic to try again.";
+      el("hint").textContent = "Couldn't check answer — try again.";
       state.answering = false;
+      el("answer-input").disabled = false;
     }
   }
 
@@ -328,6 +351,7 @@
         if (state.answering) return;
         state.answering = true;
         clearInterval(state.qTimerInterval);
+        el("answer-input").disabled = true;
         await handleTranscript(transcript);
       },
       onError: (err) => {

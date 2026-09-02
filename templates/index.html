@@ -62,7 +62,7 @@
         </div>
 
         <div class="timed-options" id="timed-options" hidden>
-          <div class="setting-row" style="margin-top:14px">
+          <div class="setting-row">
             <label class="setting-label" for="timer-slider">Seconds per question</label>
             <span class="setting-value" id="timer-value">10s</span>
           </div>
@@ -105,12 +105,17 @@
         <p class="status" id="status" aria-live="polite"></p>
       </main>
 
-      <div class="controls">
+      <      <div class="controls">
+        <div class="answer-input-wrap">
+          <input class="answer-input" id="answer-input" type="text" placeholder="Type your answer…" autocomplete="off">
+          <button class="submit-btn" id="submit-btn" type="button">Submit</button>
+        </div>
+        <div class="divider-or"><span>or</span></div>
         <button class="mic-btn" id="mic-btn" type="button" aria-label="Tap and speak your answer">
           <span class="mic-ring"></span>
           <span class="mic-icon" aria-hidden="true"></span>
         </button>
-        <p class="hint" id="hint">Tap the mic and say your answer</p>
+        <p class="hint" id="hint">Type your answer or tap the mic</p>
       </div>
 
       <footer class="scoreboard">
